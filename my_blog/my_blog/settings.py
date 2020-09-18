@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     #注册article
     'article',
+    'userprofile',
 ]
 
 MIDDLEWARE = [
