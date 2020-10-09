@@ -13,5 +13,6 @@ app_name = 'userprofile'
 urlpatterns =[
     # 用户登录
     path('login/', views.user_login, name='login'),
-    path('logout/', views.user_logout, name='logout')
+    path('logout/', views.user_logout, name='logout'),
+    path('edit/<int:id>/', views.profile_edit, name='edit')
 ]
