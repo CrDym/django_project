@@ -10,7 +10,6 @@
 <!-- 写入 base.html 中定义的 content -->
 {% block content %}
 
-<!-- 定义放置文章标题的div容器 -->
 <div class="container">
     <div class="row mt-2">
 
@@ -29,6 +28,12 @@
                 <!-- 注脚 -->
                 <div class="card-footer">
                     <a href="{% url 'article:article_detail' article.id %}" class="btn btn-primary">阅读本文</a>
+                <!-- 显示浏览量 -->
+                <span>
+                    <small class="col align-self-end" style="color: gray;">
+                        浏览: {{ article.total_views }}
+                    </small>
+                </span>
                 </div>
             </div>
         </div>
