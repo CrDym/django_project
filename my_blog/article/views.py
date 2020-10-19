@@ -15,18 +15,20 @@ from django.core.paginator import Paginator
 
 
 def article_list(request):
-    # 取出所有博客文章
-    article_list = ArticlePost.objects.all()
+    if request.GET.get('order') == 'total_views':
+        article_list = ArticlePost.objects.all().order_by('-total_views')
+        order = "total_views"
+    else:
+        article_list =ArticlePost.objects.all()
+        order = "normal"
 
-    # 每页显示1篇文章
-    paginator = Paginator(article_list, 1)
-    # 获取 url 中的页码
+    paginator = Paginator(article_list, 3)
     page = request.GET.get('page')
-    # 将导航对象相应的页码内容返回给article
     articles = paginator.get_page(page)
 
-    context = {'articles': articles}
-    return render(request, 'article/list.html',context)
+    context = {'articles': articles, 'order': order}
+
+    return render(request,'article/list.html', context)
 
 
 def article_detail(request, id):
