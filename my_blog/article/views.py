@@ -12,15 +12,30 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 # 引入分页模块
 from django.core.paginator import Paginator
+from django.db.models import  Q
 
 
 def article_list(request):
-    if request.GET.get('order') == 'total_views':
-        article_list = ArticlePost.objects.all().order_by('-total_views')
-        order = "total_views"
+    search = request.GET.get('search')
+    order = request.GET.get('order')
+    # 用户搜索逻辑
+    if search:
+        if order == "total_views":
+            article_list = ArticlePost.objects.filter(
+                Q(title__icontains=search) |
+                Q(body__icontains=search)
+            ).order_by('-total_views')
+        else:
+            article_list = ArticlePost.objects.filter(
+                Q(title__icontains=search) |
+                Q(body__icontains=search)
+            )
     else:
-        article_list =ArticlePost.objects.all()
-        order = "normal"
+        search = " "
+        if order =="total_views":
+            article_list = ArticlePost.objects.all().order_by('-total_views')
+        else:
+            article_list = ArticlePost.objects.all()
 
     paginator = Paginator(article_list, 3)
     page = request.GET.get('page')
